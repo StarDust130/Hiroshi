@@ -5,6 +5,7 @@ import { useSignUp } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react"; // For password toggle
 
 const SignUp = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -66,15 +67,20 @@ const SignUp = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
-        <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">
-          Sign Up
+    <div className="min-h-screen bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-700 flex items-center justify-center">
+      <div className="w-full max-w-md p-10 bg-white shadow-2xl rounded-2xl border-2 border-gray-100">
+        <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-6">
+          Create an Account
         </h2>
-        {error && <div className="mb-4 text-red-500 text-center">{error}</div>}
+
+        {error && (
+          <div className="mb-4 p-3 bg-red-100 text-red-600 rounded-md text-center">
+            {error}
+          </div>
+        )}
 
         {!pendingVerification ? (
-          <form onSubmit={submit} className="space-y-4">
+          <form onSubmit={submit} className="space-y-6">
             <div>
               <label
                 htmlFor="email"
@@ -88,7 +94,7 @@ const SignUp = () => {
                 value={emailAddress}
                 onChange={(e) => setEmailAddress(e.target.value)}
                 required
-                className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-4 mt-2 bg-gray-100 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
               />
             </div>
 
@@ -106,33 +112,33 @@ const SignUp = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-4 mt-2 bg-gray-100 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500"
                 >
-                  {showPassword ? "Hide" : "Show"}
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full py-3 mt-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full py-3 mt-6 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
             >
               Sign Up
             </button>
           </form>
         ) : (
-          <form onSubmit={onPressVerify} className="space-y-4">
+          <form onSubmit={onPressVerify} className="space-y-6">
             <div>
               <label
                 htmlFor="otp"
                 className="block text-sm font-medium text-gray-700"
               >
-                OTP
+                Enter OTP
               </label>
               <input
                 type="text"
@@ -140,20 +146,20 @@ const SignUp = () => {
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
                 required
-                className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-4 mt-2 bg-gray-100 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full py-3 mt-4 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full py-3 mt-6 bg-green-600 text-white font-semibold rounded-lg shadow-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300"
             >
               Verify OTP
             </button>
           </form>
         )}
 
-        <div className="mt-6 text-center text-sm text-gray-500">
+        <div className="mt-8 text-center text-sm text-gray-500">
           Already have an account?{" "}
           <Link href="/login" className="text-blue-600 hover:underline">
             Log in
