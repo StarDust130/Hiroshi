@@ -12,3 +12,22 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id                 String    @id @default(cuid())
+  email              String    @unique
+  isSubscribed       Boolean   @default(false)
+  subscriptionEndsAt DateTime?
+  name               String?
+  todos              Todo[]
+}
+
+model Todo {
+  user      User     @relation(fields: [userId], references: [id])
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  completed Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
