@@ -6,4 +6,10 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 // If the global variable already has a PrismaClient instance, use that one
-export const prisma = globalForPrisma.prisma ?? new PrismaClient();
+const prisma = globalForPrisma.prisma ?? new PrismaClient();
+
+export default prisma;
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
+}
