@@ -46,4 +46,45 @@ export async function POST() {
   }
 }
 
-export async function GET() {}
+export async function GET() {
+  // 1) Check if the user is login
+  const { userId } = await auth();
+
+  if (!userId) {
+    return NextResponse.json("Unauthorized user 😿", { status: 401 });
+  }
+
+  // 2) Get the user from the database
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { isSubscribed: true, subscriptionEndsAt: true },
+    });
+
+    if (!user) {
+      return NextResponse.json("User not found 😿", { status: 404 });
+    }
+
+    const now = new Date();
+
+    // 3) Check if the user subscription has ended
+    if (user?.subscriptionEndsAt && user.subscriptionEndsAt < now) {
+      await prisma.user.update({
+        where: { id: userId },
+        data: { isSubscribed: false },
+      });
+    }
+
+    return NextResponse.json({
+      message: "User subscription status fetched successfully 🥳",
+      user,
+    });
+  } catch (error) {
+    console.log("Error fetching Subscription status 😛", error);
+
+    return NextResponse.json("Error fetching Subscription status 🤨", {
+      status: 400,
+    });
+  }
+}
