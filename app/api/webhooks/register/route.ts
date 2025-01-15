@@ -25,6 +25,7 @@ export async function POST(req: Request) {
   const wh = new Webhook(WEBHOOK_SECRET);
 
   let event: WebhookEvent;
+  console.log("Webhook body:", body);
 
   try {
     event = wh.verify(body, {
@@ -37,7 +38,7 @@ export async function POST(req: Request) {
     return new Response("Error ocuured in Webhook 🤨", { status: 400 });
   }
 
-//   const { id } = event.data;
+  //   const { id } = event.data;
   const eventType = event.type;
 
   if (eventType === "user.created") {
