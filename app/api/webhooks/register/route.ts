@@ -64,7 +64,7 @@ export async function POST(req: Request) {
           isSubscribed: false, // Default setting
         },
       });
-      console.log("New user created:", newUser);
+      console.log("New user created 🥰:", newUser);
     } catch (error) {
       console.error("Error in user.created event", error);
       return new Response("Error to created user 👎", { status: 400 });
