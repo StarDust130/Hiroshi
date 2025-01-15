@@ -37,7 +37,7 @@ export async function POST(req: Request) {
     return new Response("Error ocuured in Webhook 🤨", { status: 400 });
   }
 
-  const { id } = event.data;
+//   const { id } = event.data;
   const eventType = event.type;
 
   if (eventType === "user.created") {
