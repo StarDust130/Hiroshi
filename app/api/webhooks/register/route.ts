@@ -39,4 +39,35 @@ export async function POST(req: Request) {
 
   const { id } = event.data;
   const eventType = event.type;
+
+  if (eventType === "user.created") {
+    try {
+      const { email_addresses, primary_email_address_id } = event.data;
+
+      const primaryEmail = email_addresses.find(
+        (email) => email.id === primary_email_address_id
+      );
+
+      console.log("Primary email:", primaryEmail);
+      console.log("Email addresses:", primaryEmail?.email_address);
+
+      if (!primaryEmail) {
+        console.error("No primary email found");
+        return new Response("No primary email found", { status: 400 });
+      }
+
+      // Create the user in the database
+      const newUser = await prisma.user.create({
+        data: {
+          id: event.data.id!,
+          email: primaryEmail.email_address,
+          isSubscribed: false, // Default setting
+        },
+      });
+      console.log("New user created:", newUser);
+    } catch (error) {
+      console.error("Error in user.created event", error);
+      return new Response("Error to created user 👎", { status: 400 });
+    }
+  }
 }
