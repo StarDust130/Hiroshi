@@ -74,6 +74,11 @@ export async function GET() {
         where: { id: userId },
         data: { isSubscribed: false },
       });
+      return NextResponse.json({
+        message: "User subscription has ended 😿",
+        isSubscribed: false,
+        subscriptionEndsAt: null,
+      });
     }
 
     return NextResponse.json({
