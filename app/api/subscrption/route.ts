@@ -33,14 +33,17 @@ export async function POST() {
       },
     });
 
-    return NextResponse.json(updatedUser);
+    return NextResponse.json({
+      message: "User subscription updated successfully 🥳",
+      updatedUser,
+    });
   } catch (error) {
-    console.log("Error 😛", error);
+    console.log("Error updating Subscription  😛", error);
 
-    return NextResponse.json("Error  🤨", { status: 400 });
+    return NextResponse.json("Error updating Subscription  🤨", {
+      status: 400,
+    });
   }
 }
 
-export async function GET() {
-
-}
+export async function GET() {}
