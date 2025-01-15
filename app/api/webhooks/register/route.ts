@@ -70,4 +70,6 @@ export async function POST(req: Request) {
       return new Response("Error to created user 👎", { status: 400 });
     }
   }
+
+  return new Response("Webhook received 😄", { status: 200 });
 }
